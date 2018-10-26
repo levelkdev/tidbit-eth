@@ -1,13 +1,26 @@
-node_modules
-build
-*.log
 lib
-secrets.json
+
+# Coverage directory used by tools like istanbul
 coverage
 coverage.json
-allFiredEvents
-scTopics
 coverageEnv
 
+# Dependency directory
+node_modules
+
+# Infura deployment configuration
+secrets.json
+
+# Logs
+*.log
+
+# Runtime data
+allFiredEvents
+scTopics
+
+# Truffle build directory
+build
+
+# Zeppelin OS
 .zos.session
 zos.development.json

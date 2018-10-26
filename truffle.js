@@ -1,12 +1,40 @@
-
 require('babel-register')
 require('babel-polyfill')
 
 const HDWalletProvider = require("truffle-hdwallet-provider");
-const secrets = require('./secrets.json');
+const fs = require('fs');
+
+// first read in the secrets.json to get our mnemonic
+let secrets;
+let mnemonic;
+if (fs.existsSync('secrets.json')) {
+  secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
+  mnemonic = secrets.mnemonic;
+} else {
+  console.log('no secrets.json found. You can only deploy to the testrpc.');
+  mnemonic = '';
+}
 
 module.exports = {
   networks: {
+    rinkeby: {
+      provider: new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io'),
+      network_id: '*',
+      gas: 6000000,
+      gasPrice: 20 * 10 ** 9,
+    },
+    ropsten: {
+      provider: new HDWalletProvider(mnemonic, 'https://ropsten.infura.io'),
+      network_id: '*',
+      gas: 6000000,
+      gasPrice: 20 * 10 ** 9,
+    },
+    kovan: {
+      provider: new HDWalletProvider(mnemonic, 'https://kovan.infura.io'),
+      network_id: '*',
+      gas: 6000000,
+      gasPrice: 20 * 10 ** 9,
+    },
     development: {
       host: 'localhost',
       port: 8545,
@@ -14,18 +42,5 @@ module.exports = {
       gas: 6000000,
       gasPrice: 0x01
     },
-    coverage: {
-      host: 'localhost',
-      network_id: '*',
-      port: 8546,
-      gas: 0xfffffffffff,
-      gasPrice: 0x01
-    },
-    ropsten: {
-      provider: function() {
-        return new HDWalletProvider(secrets.mnemonic, "https://ropsten.infura.io/<secrets.infura_apikey>")
-      },
-      network_id: 3
-    }   
   }
 }

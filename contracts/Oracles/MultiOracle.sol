@@ -2,9 +2,9 @@ pragma solidity ^0.4.24;
 
 import "./IOracle.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "zos-lib/contracts/migrations/Migratable.sol";
+import "zos-lib/contracts/Initializable.sol";
 
-contract MultiOracle is Migratable, IOracle, Ownable {
+contract MultiOracle is Initializable, IOracle, Ownable {
 
   struct OracleData {
     address dataSource;
@@ -15,8 +15,6 @@ contract MultiOracle is Migratable, IOracle, Ownable {
   mapping (bytes32 => OracleData) results; // id to result map
 
   event ResultSet(bytes32 _id, bytes _result, address _sender);
-
-  function initialize() isInitializer("BasicOracle", "0.0.0") public {}
 
   /**
    * @dev Throws if operator is not dataSource.

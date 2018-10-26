@@ -18,7 +18,7 @@
     "solc": "^0.4.24",
     "truffle-blockchain-utils": "^0.0.3",
     "truffle-hdwallet-provider": "^0.0.3",
-    "zos-lib": "^1.4.1"
+    "zos-lib": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -37,7 +37,7 @@
     "solidity-coverage": "^0.5.5",
     "solidity-docgen": "^0.1.0",
     "standard": "^10.0.3",
-    "truffle": "^4.1.13",
+    "truffle": "^4.1.14",
     "web3": "^1.0.0-beta.35",
     "web3-utils": "^1.0.0-beta.35"
   },

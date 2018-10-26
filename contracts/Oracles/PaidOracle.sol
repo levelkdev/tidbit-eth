@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
 import "./BasicOracle.sol";
-import "openzeppelin-solidity/contracts/math/Math.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-eth/contracts/math/Math.sol";
+import "openzeppelin-eth/contracts/math/SafeMath.sol";
 
 /**
  * @title PaidOracle
@@ -41,7 +41,7 @@ contract PaidOracle is BasicOracle {
     returns 
     (uint256)
   {
-    return Math.min256(reward, address(this).balance);
+    return Math.min(reward, address(this).balance);
   }
 
   /*

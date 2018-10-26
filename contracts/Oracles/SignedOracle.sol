@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./BasicOracle.sol";
-import "openzeppelin-solidity/contracts/ECRecovery.sol";
+import "openzeppelin-eth/contracts/cryptography/ECDSA.sol";
 
 /**
  * @title SignedOracle
@@ -34,7 +34,7 @@ contract SignedOracle is BasicOracle {
     bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, _result));
 
     // Recover signer from the signature with messageSigned
-    address signer = ECRecovery.recover(prefixedHash, _signature);
+    address signer = ECDSA.recover(prefixedHash, _signature);
 
     // Check that the signer is the dataSource
     require(signer == dataSource, "Invalid signature");

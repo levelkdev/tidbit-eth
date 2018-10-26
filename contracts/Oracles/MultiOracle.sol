@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./IOracle.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-eth/contracts/ownership/Ownable.sol";
 import "zos-lib/contracts/Initializable.sol";
 
 contract MultiOracle is Initializable, IOracle, Ownable {

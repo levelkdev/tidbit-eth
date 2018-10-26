@@ -12,5 +12,5 @@
     "SignedOracle": "SignedOracle",
     "SignedPushOracle": "SignedPushOracle"
   },
-  "lib": true
+  "zosversion": "2"
 }

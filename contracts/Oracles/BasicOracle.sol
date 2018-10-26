@@ -1,13 +1,13 @@
 pragma solidity ^0.4.24;
 
 import "./OracleBase.sol";
-import "zos-lib/contracts/migrations/Migratable.sol";
+import "zos-lib/contracts/Initializable.sol";
 
 /**
  * @title BasicOracle
  * @dev Extends OracleBase to allow the result to be set by a single data source
  */
-contract BasicOracle is Migratable, OracleBase {
+contract BasicOracle is Initializable, OracleBase {
 
   // The address that is able to set the result
   address public dataSource;
@@ -16,7 +16,7 @@ contract BasicOracle is Migratable, OracleBase {
    *  @dev BasicOracle constructor
    *  @param _dataSource The address that is able to set the result
    */
-  function initialize(address _dataSource) isInitializer("BasicOracle", "0.0.0") public {
+  function initialize(address _dataSource) initializer public {
     dataSource = _dataSource;
   }
 

@@ -3,7 +3,7 @@ import expectEvent from '../helpers/expectEvent'
 import { web3 } from '../helpers/w3'
 import { encodeCall } from 'zos-lib'
 
-const SignedOracle = artifacts.require('SignedOracle')
+const SignedOracle = artifacts.require('SignedOracleMock')
 
 require('chai').should()
 
@@ -15,13 +15,7 @@ contract('SignedOracle', (accounts) => {
 
   let oracle
   beforeEach(async ()=> {
-    oracle = await SignedOracle.new()
-    const callData = encodeCall(
-        "initialize", 
-        ['address'],
-        [dataSource]
-    )
-    await oracle.sendTransaction({data: callData})
+    oracle = await SignedOracle.new(dataSource)
   })
 
   it('can set result by data source', async () => {

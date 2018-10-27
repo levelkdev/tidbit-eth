@@ -1,6 +1,6 @@
 import { web3 } from '../helpers/w3'
 
-const SignedPushOracle = artifacts.require('SignedPushOracle')
+const SignedPushOracle = artifacts.require('SignedPushOracleMock')
 const OracleConsumerMock = artifacts.require('OracleConsumerMock')
 
 require('chai').should()
@@ -14,8 +14,7 @@ contract('SignedPushOracle', (accounts) => {
   it('calls receiveResult() on OracleConsumer', async () => {
     // Deploy contracts
     const oracleConsumer = await OracleConsumerMock.new()
-    const oracle = await SignedPushOracle.new()
-    await oracle.initialize(signer, oracleConsumer.address)
+    const oracle = await SignedPushOracle.new(signer, oracleConsumer.address)
 
     // Sign and set result hash
     let signature = await web3.eth.sign(RESULT_HASH, signer)

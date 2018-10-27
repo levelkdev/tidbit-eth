@@ -3,7 +3,7 @@ import expectEvent from '../helpers/expectEvent'
 import { web3 } from '../helpers/w3'
 import { encodeCall } from 'zos-lib'
 
-const PaidOracle = artifacts.require('PaidOracle')
+const PaidOracle = artifacts.require('PaidOracleMock')
 const BigNumber = require('bignumber.js');
 
 const should = require('chai')
@@ -21,24 +21,14 @@ contract('PaidOracle', (accounts) => {
   let oracle
   let oracle2
   beforeEach(async ()=> {
-    oracle = await PaidOracle.new()
-    const data = encodeCall(
-        "initialize", 
-        ['address', 'uint256'],
-        [dataSource, reward]
-    )
-    await oracle.sendTransaction({data, value: contractBalance})
+    oracle = await PaidOracle.new(dataSource, reward, { value: contractBalance })
   })
 
+  // TODO: Check initial datasSource and reward values
+
   it('requires a non-null dataSource', async () => {
-    oracle2 = await PaidOracle.new()
-    const data = encodeCall(
-        "initialize", 
-        ['address', 'uint256'],
-        [ZERO_ADDRESS, reward]
-    )
     await expectRevert(
-      oracle2.sendTransaction({data, value: contractBalance})
+      PaidOracle.new(ZERO_ADDRESS, reward, { value: reward })
     )
   })
 

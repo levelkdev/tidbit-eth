@@ -30,6 +30,10 @@ contract MultiOracle is Initializable, IOracle, Ownable {
    *  Public functions
    */
 
+  function initialize(address _sender) public initializer {
+    Ownable.initialize(_sender);
+  }
+
  /**
   * @dev Sets the result of the oracle
   * @param id The id being set

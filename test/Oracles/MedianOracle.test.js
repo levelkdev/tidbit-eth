@@ -2,8 +2,8 @@ import { web3 } from '../helpers/w3'
 import expectRevert from '../helpers/expectRevert'
 import { encodeCall } from 'zos-lib'
 
-const MedianOracle = artifacts.require('MedianOracle')
-const BasicOracle = artifacts.require('BasicOracle')
+const MedianOracle = artifacts.require('MedianOracleMock')
+const BasicOracle = artifacts.require('BasicOracleMock')
 
 require('chai').should()
 
@@ -21,50 +21,17 @@ contract('MedianOracle', (accounts) => {
   let medianOracle1
 
   beforeEach(async () => {
-    oracle1 = await BasicOracle.new()
-    const callData1 = encodeCall(
-        "initialize", 
-        ['address'],
-        [dataSource1]
-    )
-    await oracle1.sendTransaction({data: callData1})
-
-    oracle2 = await BasicOracle.new()
-    const callData2 = encodeCall(
-        "initialize",
-        ['address'],
-        [dataSource2]
-    )
-    await oracle2.sendTransaction({data: callData2})
-
-    oracle3 = await BasicOracle.new()
-    const callData3 = encodeCall(
-        "initialize", 
-        ['address'],
-        [dataSource3]
-    )
-    await oracle3.sendTransaction({data: callData3})
+    oracle1 = await BasicOracle.new(dataSource1)
+    oracle2 = await BasicOracle.new(dataSource2)
+    oracle3 = await BasicOracle.new(dataSource3)
   })
 
-  it('cannot initialize MedianOracle with empty oracle array.', 
-    async () => {
-    medianOracle1 = await MedianOracle.new()
-    const callData = encodeCall(
-        "initialize",
-        ['address[]'],
-        [dataSource5]
-    )
-    await expectRevert(medianOracle1.sendTransaction({data: callData}))
+  it('cannot initialize MedianOracle with empty oracle array.', async () => {
+    await expectRevert(MedianOracle.new([]))
   })
 
   it('cannot set result if any of the sub-oracles have not been set yet.', async () => {
-    const medianOracle = await MedianOracle.new()
-    const callData = encodeCall(
-        "initialize",
-        ['address[]'],
-        [[oracle1.address, oracle2.address, oracle3.address]]
-    )
-    await medianOracle.sendTransaction({data: callData})
+    const medianOracle = await MedianOracle.new([oracle1.address, oracle2.address, oracle3.address])
     await oracle1.setResult(RESULT1, { from: dataSource1 })
     await oracle2.setResult(RESULT2, { from: dataSource2 })
     await expectRevert(medianOracle.setResult())
@@ -74,37 +41,19 @@ contract('MedianOracle', (accounts) => {
     await oracle1.setResult(RESULT1, { from: dataSource1 })
     await oracle2.setResult(RESULT2, { from: dataSource2 })
     await oracle3.setResult(RESULT3, { from: dataSource3 })
-    const medianOracle = await MedianOracle.new();
-    const callData = encodeCall(
-        "initialize",
-        ['address[]'],
-        [[oracle1.address, oracle2.address, oracle3.address]]
-    )
-    await medianOracle.sendTransaction({data: callData})
+    const medianOracle = await MedianOracle.new([oracle1.address, oracle2.address, oracle3.address]);
     await medianOracle.setResult()
     const medianValue = await medianOracle.resultFor(0)
     web3.utils.hexToUtf8(medianValue).should.equal('10')
   })
 
   it('set result to the median value even with duplicated value in sub-oracles', async () => {
-    oracle4 = await BasicOracle.new()
-    const callData4 = encodeCall(
-        "initialize",
-        ['address'],
-        [dataSource4]
-    )
-    await oracle4.sendTransaction({data: callData4})
+    oracle4 = await BasicOracle.new(dataSource4)
     await oracle1.setResult(RESULT1, { from: dataSource1 })
     await oracle2.setResult(RESULT2, { from: dataSource2 })
     await oracle3.setResult(RESULT3, { from: dataSource3 })
     await oracle4.setResult(RESULT2, { from: dataSource4 })
-    const medianOracle = await MedianOracle.new();
-    const callData = encodeCall(
-        "initialize",
-        ['address[]'],
-        [[oracle1.address, oracle2.address, oracle3.address, oracle4.address]]
-    )
-    await medianOracle.sendTransaction({data: callData})
+    const medianOracle = await MedianOracle.new([oracle1.address, oracle2.address, oracle3.address, oracle4.address]);
     await medianOracle.setResult()
     const medianValue = await medianOracle.resultFor(0)
     web3.utils.hexToUtf8(medianValue).should.equal('10')

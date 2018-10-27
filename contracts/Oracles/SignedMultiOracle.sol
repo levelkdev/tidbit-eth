@@ -8,6 +8,11 @@ import "openzeppelin-eth/contracts/cryptography/ECDSA.sol";
  * @dev Extends MultiOracle to use signed messages
  */
 contract SignedMultiOracle is MultiOracle {
+
+  function initialize(address _sender) initializer public {
+    MultiOracle.initialize(_sender);
+  }
+
   /**
    * @dev Sets the result of the oracle with a signed message.
    * To resolve the issue that truffle not supporting function overrides,

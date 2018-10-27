@@ -13,7 +13,8 @@ contract PaidMultiOracle is MultiOracle {
 
   uint256 public reward;
   
-  function initialize(uint256 _reward) initializer public payable {
+  function initialize(uint256 _reward, address _sender) initializer public payable {
+    MultiOracle.initialize(_sender);
     reward = _reward;
   }
 

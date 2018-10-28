@@ -2,7 +2,7 @@ import expectEvent from '../helpers/expectEvent'
 import expectRevert from '../helpers/expectRevert'
 import { web3 } from '../helpers/w3'
 
-const SignedMultiOracle = artifacts.require('SignedMultiOracle')
+const SignedMultiOracle = artifacts.require('SignedMultiOracleMock')
 
 require('chai').should()
 
@@ -21,7 +21,7 @@ contract('SignedMultiOracle', (accounts) => {
 
   let oracle
   beforeEach(async ()=> {
-    oracle = await SignedMultiOracle.new()
+    oracle = await SignedMultiOracle.new(accounts[0])
     await oracle.newOracle(id1, signer1)
     await oracle.newOracle(id2, signer2)
   })

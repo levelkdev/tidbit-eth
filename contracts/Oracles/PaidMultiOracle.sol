@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
 import "./MultiOracle.sol";
-import "openzeppelin-solidity/contracts/math/Math.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-eth/contracts/math/Math.sol";
+import "openzeppelin-eth/contracts/math/SafeMath.sol";
 
 /**
  * @title PaidMultiOracle
@@ -13,7 +13,8 @@ contract PaidMultiOracle is MultiOracle {
 
   uint256 public reward;
   
-  function initialize(uint256 _reward) initializer public payable {
+  function initialize(uint256 _reward, address _sender) initializer public payable {
+    MultiOracle.initialize(_sender);
     reward = _reward;
   }
 
@@ -21,7 +22,7 @@ contract PaidMultiOracle is MultiOracle {
    * @dev Returns the oracle reward or the contract's balance if it's less than the reward
    */
   function getReward() public view returns (uint256) {
-    return Math.min256(reward, address(this).balance);
+    return Math.min(reward, address(this).balance);
   }
 
   /*

@@ -3,7 +3,7 @@ import expectRevert from '../helpers/expectRevert'
 import expectEvent from '../helpers/expectEvent'
 import { web3 } from '../helpers/w3'
 
-const MultiOracle = artifacts.require('MultiOracle')
+const MultiOracle = artifacts.require('MultiOracleMock')
 
 const BigNumber = web3.BigNumber;
 
@@ -21,8 +21,7 @@ contract('MultiOracle', (accounts) => {
 
   let oracle
   beforeEach(async ()=> {
-    oracle = await MultiOracle.new()
-    oracle.initialize()
+    oracle = await MultiOracle.new(accounts[0])
   })
 
   it('requires a non-null dataSource', async () => {

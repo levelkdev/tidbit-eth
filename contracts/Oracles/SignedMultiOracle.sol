@@ -1,13 +1,18 @@
 pragma solidity ^0.4.24;
 
 import "./MultiOracle.sol";
-import "openzeppelin-solidity/contracts/ECRecovery.sol";
+import "openzeppelin-eth/contracts/cryptography/ECDSA.sol";
 
 /**
  * @title SignedMultiOracle
  * @dev Extends MultiOracle to use signed messages
  */
 contract SignedMultiOracle is MultiOracle {
+
+  function initialize(address _sender) initializer public {
+    MultiOracle.initialize(_sender);
+  }
+
   /**
    * @dev Sets the result of the oracle with a signed message.
    * To resolve the issue that truffle not supporting function overrides,
@@ -28,7 +33,7 @@ contract SignedMultiOracle is MultiOracle {
      bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, _result));
 
      // Recover signer from the signature with messageSigned
-     address signer = ECRecovery.recover(prefixedHash, _signature);
+     address signer = ECDSA.recover(prefixedHash, _signature);
      // Check that the signer is the dataSource
      require(signer == results[_id].dataSource, "Invalid signature");
      _setResult(_id, _result);

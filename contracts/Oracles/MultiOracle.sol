@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./IOracle.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-eth/contracts/ownership/Ownable.sol";
 import "zos-lib/contracts/Initializable.sol";
 
 contract MultiOracle is Initializable, IOracle, Ownable {
@@ -29,6 +29,10 @@ contract MultiOracle is Initializable, IOracle, Ownable {
   /*
    *  Public functions
    */
+
+  function initialize(address _sender) public initializer {
+    Ownable.initialize(_sender);
+  }
 
  /**
   * @dev Sets the result of the oracle

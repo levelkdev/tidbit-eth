@@ -3,7 +3,7 @@ import expectRevert from '../helpers/expectRevert'
 import expectEvent from '../helpers/expectEvent'
 import { encodeCall } from 'zos-lib'
 
-const BasicOracle = artifacts.require('BasicOracle')
+const BasicOracle = artifacts.require('BasicOracleMock')
 
 require('chai').should()
 
@@ -14,13 +14,7 @@ contract('BasicOracle', (accounts) => {
 
   let oracle
   beforeEach(async ()=> {
-    oracle = await BasicOracle.new()
-    const callData = encodeCall(
-        "initialize", 
-        ['address'],
-        [dataSource]
-    )
-    await oracle.sendTransaction({data: callData})
+    oracle = await BasicOracle.new(dataSource)
   })
 
   it('can set result by owner', async () => {

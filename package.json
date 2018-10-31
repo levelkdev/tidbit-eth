@@ -1,12 +1,13 @@
 {
   "name": "tidbit-eth",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "license": "MIT",
-  "main": "lib/index.js",
   "files": [
     "build",
-    "lib",
-    "src"
+    "contracts",
+    "test",
+    "zos.json",
+    "zos.*.json"
   ],
   "repository": {
     "type": "git",

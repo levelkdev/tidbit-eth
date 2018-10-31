@@ -24,3 +24,4 @@ build
 # Zeppelin OS
 .zos.session
 zos.development.json
+zos.dev-**
